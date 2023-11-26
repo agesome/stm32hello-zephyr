@@ -40,3 +40,18 @@
 		output-high;
 	};
 };
+
+&spi2 {
+	pinctrl-0 = <&spi2_sck_pb13 &spi2_miso_pb14 &spi2_mosi_pc1>;
+	pinctrl-names = "default";
+	clocks = <&rcc STM32_CLOCK_BUS_APB1 0x00004000>, <&rcc STM32_SRC_PLL1_Q SPI2_SEL(0)>;
+	status = "okay";
+
+	cs-gpios = < &gpioc 0 GPIO_ACTIVE_LOW >;
+	max7219: max7219@0 {
+		compatible = "maxim,max7219";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(8)>;
+		status = "okay";
+	};
+};
