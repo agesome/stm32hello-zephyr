@@ -1,0 +1,3 @@
+config BOARD_NUCLEO_H503RB
+	bool "Nucleo H503RB Development Board"
+	depends on SOC_STM32H503XX

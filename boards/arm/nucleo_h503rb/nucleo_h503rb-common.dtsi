@@ -1,0 +1,86 @@
+#include <st/h5/stm32h503Xb.dtsi>
+#include <st/h5/stm32h503rbtx-pinctrl.dtsi>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+};
+
+&clk_hse {
+	clock-frequency = <DT_FREQ_M(24)>;
+	status = "okay";
+};
+
+&clk_hsi48 {
+	status = "okay";
+};
+
+&clk_lse {
+	status = "okay";
+};
+
+&pll {
+	div-m = <6>;
+	mul-n = <120>;
+	div-p = <2>;
+	div-q = <5>;
+	div-r = <2>;
+	clocks = <&clk_hse>;
+	status = "okay";
+};
+
+&rcc {
+	clocks = <&pll>;
+	clock-frequency = <DT_FREQ_M(240)>;
+	ahb-prescaler = <1>;
+	apb1-prescaler = <1>;
+	apb2-prescaler = <1>;
+	apb3-prescaler = <1>;
+};
+
+&usart3 {
+	pinctrl-0 = <&usart3_tx_pa4 &usart3_rx_pa3>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+	status = "okay";
+};
+
+&spi1 {
+	pinctrl-0 = <&spi1_sck_pa5 &spi1_miso_pa6 &spi1_mosi_pa7>;
+	pinctrl-names = "default";
+	clocks = <&rcc STM32_CLOCK_BUS_APB2 0x00001000>, <&rcc STM32_SRC_PLL1_Q SPI1_SEL(0)>;
+	status = "okay";
+};
+
+&iwdg {
+	status = "okay";
+};
+
+&gpdma1 {
+	status = "okay";
+};
+
+&gpdma2 {
+	status = "okay";
+};
+
+&adc1 {
+	pinctrl-0 = <&adc1_inp3_pa6 &adc1_inp15_pa3>; /* Zio A0, Zio D35 */
+	pinctrl-names = "default";
+	st,adc-clock-source = <ASYNC>;
+	st,adc-prescaler = <6>;
+	status = "okay";
+};
+
+zephyr_udc0: &usb {
+	pinctrl-0 = <&usb_dm_pa11 &usb_dp_pa12>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&vref {
+	status = "okay";
+};
+
+&vbat {
+	status = "okay";
+};
